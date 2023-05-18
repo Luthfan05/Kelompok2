@@ -51,9 +51,9 @@ private void autoid1(){
     try {
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbmahasiswa","root","");
         Statement stm = con.createStatement();
-        ResultSet rs = stm.executeQuery("SELECT * FROM absen_pagi ORDER BY id_absen DESC");
+        ResultSet rs = stm.executeQuery("SELECT * FROM absen_malam ORDER BY id_absen_malam DESC");
         if (rs.next()){
-            String id = rs.getString("id_absen").substring(1);
+            String id = rs.getString("id_absen_malam").substring(1);
             String AN = ""+(Integer.parseInt(id) + 1);
             String nol = "";
             
