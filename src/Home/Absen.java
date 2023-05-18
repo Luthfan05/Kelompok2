@@ -26,7 +26,7 @@ private void autoid(){
         ResultSet rs = stm.executeQuery("SELECT * FROM absen_pagi ORDER BY id_absen DESC");
         if (rs.next()){
             String id = rs.getString("id_absen").substring(1);
-            String AN = ""+(Integer.parseInt(id) + 0);
+            String AN = ""+(Integer.parseInt(id) + 1);
             String nol = "";
             
             if (AN.length()==1){
@@ -51,24 +51,35 @@ private void autoid1(){
     try {
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbmahasiswa","root","");
         Statement stm = con.createStatement();
+        
         ResultSet rs = stm.executeQuery("SELECT * FROM absen_malam ORDER BY id_absen_malam DESC");
-        if (rs.next()){
-            String id = rs.getString("id_absen_malam").substring(1);
-            String AN = ""+(Integer.parseInt(id) + 1);
-            String nol = "";
-            
-            if (AN.length()==1){
-                nol = "000";
-            }else if (AN.length()==2){
-                nol = "00";
-            }else if (AN.length()==3){
-                nol = "0";
+        String id, AN = "001", nol = "";
+        int[] idInt = new int[2];
+        int cek = 0;
+        while(rs.next()){
+            id = rs.getString("id_absen_malam").substring(1);
+            idInt[1] = Integer.parseInt(id);
+            if(cek == 0){
+                idInt[0] = idInt[1];
             }
-            txid.setText(nol + AN);
             
-        } else {
-            txid.setText("0001");
+            if((idInt[1] - idInt[0]) > 1){
+                AN = String.valueOf(idInt[0] + 1);
+                break;
+            } else {
+                AN = String.valueOf(idInt[1] + 1);
+            }
+            cek++;
         }
+        
+        if(AN.length()==1){
+            nol = "00";
+        } else if (AN.length()==2){
+            nol = "0";
+        } else {
+            nol = "";
+        }
+        txid1.setText(nol + AN);
         
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, "S");
@@ -155,6 +166,7 @@ private void autoid1(){
         rb5 = new javax.swing.JRadioButton();
         rb6 = new javax.swing.JRadioButton();
         sbmt1 = new javax.swing.JButton();
+        txid1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -666,7 +678,7 @@ private void autoid1(){
         jLabel13.setFont(new java.awt.Font("Gill Sans MT", 0, 14)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(204, 204, 204));
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel13.setText("Matkul");
+        jLabel13.setText("Lantai");
 
         jLabel14.setFont(new java.awt.Font("Gill Sans MT", 0, 14)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(204, 204, 204));
@@ -787,6 +799,13 @@ private void autoid1(){
             }
         });
 
+        txid1.setEnabled(false);
+        txid1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txid1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout card5Layout = new javax.swing.GroupLayout(card5);
         card5.setLayout(card5Layout);
         card5Layout.setHorizontalGroup(
@@ -818,11 +837,16 @@ private void autoid1(){
                         .addGap(70, 70, 70)
                         .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 587, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(93, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, card5Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txid1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31))
         );
         card5Layout.setVerticalGroup(
             card5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, card5Layout.createSequentialGroup()
-                .addGap(83, 83, 83)
+                .addComponent(txid1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(61, 61, 61)
                 .addGroup(card5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lantai3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(penghuni3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1357,7 +1381,7 @@ private void autoid1(){
         }
         try {
             String sql = "INSERT INTO absen_malam VALUES ('"
-            +txid.getText()+"','"
+            +txid1.getText()+"','"
             +chooseid(penghuni3)+"','"
             +chooseid1(lantai3)+"','"
             +keterangan+"','"
@@ -1378,6 +1402,10 @@ private void autoid1(){
     private void penghuni2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_penghuni2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_penghuni2ActionPerformed
+
+    private void txid1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txid1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txid1ActionPerformed
     public void setColor(JPanel p) {
         p.setBackground(new Color(124,146,160));
     }
@@ -1485,6 +1513,7 @@ private void autoid1(){
     private javax.swing.JButton sbmt;
     private javax.swing.JButton sbmt1;
     private javax.swing.JTextField txid;
+    private javax.swing.JTextField txid1;
     // End of variables declaration//GEN-END:variables
 private String keterangan;
 }
