@@ -39,7 +39,7 @@ private void autoid(){
             txid.setText(nol + AN);
             
         } else {
-            txid.setText("001");
+            txid.setText("0001");
         }
         
     } catch (Exception e) {
@@ -58,11 +58,11 @@ private void autoid1(){
             String nol = "";
             
             if (AN.length()==1){
-                nol = "00";
+                nol = "000";
             }else if (AN.length()==2){
-                nol = "0";
+                nol = "00";
             }else if (AN.length()==3){
-                nol = "";
+                nol = "0";
             }
             txid1.setText(nol + AN);
             
