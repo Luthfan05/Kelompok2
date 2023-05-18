@@ -51,35 +51,24 @@ private void autoid1(){
     try {
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbmahasiswa","root","");
         Statement stm = con.createStatement();
-        
-        ResultSet rs = stm.executeQuery("SELECT * FROM absen_malam ORDER BY id_absen_malam DESC");
-        String id, AN = "001", nol = "";
-        int[] idInt = new int[2];
-        int cek = 0;
-        while(rs.next()){
-            id = rs.getString("id_absen_malam").substring(1);
-            idInt[1] = Integer.parseInt(id);
-            if(cek == 0){
-                idInt[0] = idInt[1];
-            }
+        ResultSet rs = stm.executeQuery("SELECT * FROM absen_pagi ORDER BY id_absen DESC");
+        if (rs.next()){
+            String id = rs.getString("id_absen").substring(1);
+            String AN = ""+(Integer.parseInt(id) + 1);
+            String nol = "";
             
-            if((idInt[1] - idInt[0]) > 1){
-                AN = String.valueOf(idInt[0] + 1);
-                break;
-            } else {
-                AN = String.valueOf(idInt[1] + 1);
+            if (AN.length()==1){
+                nol = "00";
+            }else if (AN.length()==2){
+                nol = "0";
+            }else if (AN.length()==3){
+                nol = "";
             }
-            cek++;
-        }
-        
-        if(AN.length()==1){
-            nol = "00";
-        } else if (AN.length()==2){
-            nol = "0";
+            txid1.setText(nol + AN);
+            
         } else {
-            nol = "";
+            txid1.setText("001");
         }
-        txid1.setText(nol + AN);
         
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, "S");
