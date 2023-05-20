@@ -75,6 +75,46 @@ private void autoid1(){
     }
 }   
 
+private void autoid2(){
+   try {
+            String sql = "SELECT * FROM sesi";
+            java.sql.Connection con= (java.sql.Connection) Home.Koneksi.getKoneksi();
+            java.sql.PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            
+            while (rs.next()){
+            txid2.setText(rs.getString("id_sesi"));
+                
+            }
+            rs.last();
+            int data = rs.getRow();
+            rs.first();
+            
+        }catch(Exception e){
+            
+        } 
+}
+
+private void autoid3() {
+   try {
+        String sql = "SELECT id_sesi FROM sesi ORDER BY id_sesi DESC LIMIT 1 OFFSET 1";
+        java.sql.Connection con = (java.sql.Connection) Home.Koneksi.getKoneksi();
+        java.sql.PreparedStatement pst = con.prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            String previousID = rs.getString("id_sesi");
+            txid3.setText(previousID);
+        } else {
+            // Tidak ada sesi sebelumnya
+            txid3.setText(""); // Atur ke nilai default jika tidak ada sesi sebelumnya
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+
     CardLayout cardLayout;
     public Absen() {
         initComponents();
@@ -86,6 +126,8 @@ private void autoid1(){
         show_combo5();
         autoid();
         autoid1();
+        autoid2();
+        autoid3();
         show_data();
         show_data2();
         show_data4();
@@ -131,6 +173,7 @@ private void autoid1(){
         rb1 = new javax.swing.JRadioButton();
         rb2 = new javax.swing.JRadioButton();
         rb3 = new javax.swing.JRadioButton();
+        txid2 = new javax.swing.JTextField();
         card4 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable4 = new javax.swing.JTable();
@@ -156,6 +199,7 @@ private void autoid1(){
         rb6 = new javax.swing.JRadioButton();
         sbmt1 = new javax.swing.JButton();
         txid1 = new javax.swing.JTextField();
+        txid3 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -542,6 +586,13 @@ private void autoid1(){
             }
         });
 
+        txid2.setEnabled(false);
+        txid2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txid2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout card2Layout = new javax.swing.GroupLayout(card2);
         card2.setLayout(card2Layout);
         card2Layout.setHorizontalGroup(
@@ -575,14 +626,19 @@ private void autoid1(){
                         .addGap(128, 128, 128))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, card2Layout.createSequentialGroup()
                         .addComponent(sbmt, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(304, 304, 304))))
+                        .addGap(304, 304, 304))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, card2Layout.createSequentialGroup()
+                        .addComponent(txid2, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         card2Layout.setVerticalGroup(
             card2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, card2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(txid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txid2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
                 .addGroup(card2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lantai, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -795,6 +851,8 @@ private void autoid1(){
             }
         });
 
+        txid3.setEnabled(false);
+
         javax.swing.GroupLayout card5Layout = new javax.swing.GroupLayout(card5);
         card5.setLayout(card5Layout);
         card5Layout.setHorizontalGroup(
@@ -828,14 +886,18 @@ private void autoid1(){
                 .addContainerGap(93, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, card5Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(txid1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(card5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txid1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txid3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(31, 31, 31))
         );
         card5Layout.setVerticalGroup(
             card5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, card5Layout.createSequentialGroup()
                 .addComponent(txid1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(61, 61, 61)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txid3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
                 .addGroup(card5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lantai3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(penghuni3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1194,7 +1256,7 @@ private void autoid1(){
             tabel.addColumn("Jumlah Total");
             try {
                 java.sql.Connection con = (java.sql.Connection)Home.Koneksi.getKoneksi();
-                sql = "SELECT absen_pagi.keterangan, COUNT(*) FROM penghuni JOIN absen_pagi ON penghuni.kode_kamar = absen_pagi.kode_kamar JOIN lantai ON absen_pagi.id_lantai = lantai.id_lantai GROUP BY absen_pagi.keterangan;";
+                sql = "SELECT absen_pagi.keterangan, COUNT(*) FROM penghuni JOIN absen_pagi ON penghuni.kode_kamar = absen_pagi.kode_kamar JOIN lantai ON absen_pagi.id_lantai = lantai.id_lantai JOIN sesi ON absen_pagi.id_sesi = sesi.id_sesi GROUP BY absen_pagi.keterangan;";
                 System.out.println(sql);
                 java.sql.PreparedStatement stm = con.prepareStatement(sql);
                 ResultSet rs =stm.executeQuery(sql);
@@ -1314,15 +1376,17 @@ private void autoid1(){
         try {
             String sql = "INSERT INTO absen_pagi VALUES ('"
             +txid.getText()+"','"
+            +txid2.getText()+"','" 
             +chooseid(penghuni)+"','"
             +chooseid1(lantai)+"','"
             +keterangan+"','"
-            + (java.time.LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))) + "');";
+            +(java.time.LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))+ "');";
             java.sql.Connection con = (java.sql.Connection) Home.Koneksi.getKoneksi();
             java.sql.PreparedStatement stmnt = con.prepareStatement(sql);
             stmnt.execute();
             JOptionPane.showMessageDialog(null, "Berhasil Disimpan");
             autoid();
+            autoid2();
             show_data();
 
         }catch (Exception e) {
@@ -1371,6 +1435,7 @@ private void autoid1(){
         try {
             String sql = "INSERT INTO absen_malam VALUES ('"
             +txid1.getText()+"','"
+            +txid3.getText()+"','" 
             +chooseid(penghuni3)+"','"
             +chooseid1(lantai3)+"','"
             +keterangan+"','"
@@ -1380,6 +1445,7 @@ private void autoid1(){
             stmnt.execute();
             JOptionPane.showMessageDialog(null, "Berhasil Disimpan");
             autoid1();
+            autoid3();
             show_data4();
 
         }catch (Exception e) {
@@ -1395,6 +1461,10 @@ private void autoid1(){
     private void txid1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txid1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txid1ActionPerformed
+
+    private void txid2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txid2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txid2ActionPerformed
     public void setColor(JPanel p) {
         p.setBackground(new Color(124,146,160));
     }
@@ -1503,6 +1573,8 @@ private void autoid1(){
     private javax.swing.JButton sbmt1;
     private javax.swing.JTextField txid;
     private javax.swing.JTextField txid1;
+    private javax.swing.JTextField txid2;
+    private javax.swing.JTextField txid3;
     // End of variables declaration//GEN-END:variables
 private String keterangan;
 }
